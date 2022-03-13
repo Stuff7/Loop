@@ -2,13 +2,13 @@ import gl from '@Loop/core/gfx/WebGL2';
 import { assertNull } from '@Loop/utils/assert';
 
 export class VertexBuffer {
-  buffer: WebGLBuffer;
+  private m_Buffer: WebGLBuffer;
 
   constructor(vertices?: Iterable<number>) {
 		const buffer = gl.createBuffer();
     assertNull(buffer, `Failed to create buffer from ${vertices}`);
-    this.buffer = buffer;
-		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+    this.m_Buffer = buffer;
+		gl.bindBuffer(gl.ARRAY_BUFFER, this.m_Buffer);
 
     if (!vertices) {
       gl.bufferData(gl.ARRAY_BUFFER, null, gl.DYNAMIC_DRAW);
@@ -19,7 +19,7 @@ export class VertexBuffer {
   }
 
   bind() {
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.m_Buffer);
   }
 
   setData(data: BufferSource) {
@@ -29,13 +29,13 @@ export class VertexBuffer {
 }
 
 export class IndexBuffer {
-  buffer: WebGLBuffer;
+  private m_Buffer: WebGLBuffer;
 
   constructor(indices?: Iterable<number>) {
 		const buffer = gl.createBuffer();
     assertNull(buffer, `Failed to create buffer from ${indices}`);
-    this.buffer = buffer;
-		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+    this.m_Buffer = buffer;
+		gl.bindBuffer(gl.ARRAY_BUFFER, this.m_Buffer);
 
     if (!indices) {
       gl.bufferData(gl.ARRAY_BUFFER, null, gl.DYNAMIC_DRAW);
@@ -46,6 +46,6 @@ export class IndexBuffer {
   }
 
   bind() {
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buffer);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.m_Buffer);
   }
 }
