@@ -1,0 +1,24 @@
+.debug-dialog {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  background: #3339;
+
+  & > .title {
+    font-family: Arial;
+    font-size: 24px;
+    color: #3d9;
+    text-transform: uppercase;
+  }
+
+  & > .output {
+    font-family: Consolas;
+    font-size: 20px;
+    color: #ddd;
+    padding: 10px;
+    overflow: hidden auto;
+  }
+}

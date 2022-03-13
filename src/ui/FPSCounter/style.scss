@@ -1,0 +1,14 @@
+.fps-counter {
+  font-family: Consolas;
+  font-size: 24px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  & > label {
+    font-size: 24px;
+    color: #fafafa;
+  }
+  & > span {
+    color: #2fa;
+  }
+}
