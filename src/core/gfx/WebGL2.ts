@@ -1,5 +1,5 @@
 import { $ } from '@Loop/utils/dom';
-import { assertNull } from '@Loop/utils/assert';
+import assert from '@Loop/utils/assert';
 
 // Initialize WebGL2
 export default (() => {
@@ -14,7 +14,7 @@ export default (() => {
   const ctx = canvas.getContext('webgl2');
 
   // Only continue if WebGL is available and working
-  assertNull(ctx, 'Failed to initialize WebGL');
+  assert(ctx, 'Failed to initialize WebGL');
 
   const resizeViewport = () => {
     ctx.canvas.width = window.innerWidth;

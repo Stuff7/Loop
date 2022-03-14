@@ -1,6 +1,6 @@
 import { $$, copyElementAttributes } from '@Loop/utils/dom';
 import { Obj } from '@Loop/types';
-import { assertNull } from '@Loop/utils/assert';
+import assert from '@Loop/utils/assert';
 import { init as FPSCounter} from './FPSCounter';
 import { init as DebugDialog } from './DebugDialog';
 
@@ -37,7 +37,7 @@ function init<C extends HTMLElement, S, T extends ComponentFn<C, S>>({
 
   return (id: string) => {
     const state = ComponentMap[id];
-    assertNull(state, `Could not find "${ComponentName}" component with id "${id}"`);
+    assert(state, `Could not find "${ComponentName}" component with id "${id}"`);
 
     return state;
   };

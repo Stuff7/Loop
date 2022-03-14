@@ -2,9 +2,10 @@ import gl from '@Loop/core/gfx/WebGL2';
 import Shader from '@Loop/renderer/Shader';
 import vertexShader from './shader.vert?raw';
 import fragmentShader from './shader.frag?raw';
+import VertexArray from '@Loop/renderer/VertexArray';
 import { getFPSCounter, getDebugDialog } from '@Loop/ui';
 import { mat4 } from 'gl-matrix';
-import { VertexBuffer } from '@Loop/renderer/Buffer';
+import { VertexBuffer, ShaderDataType, IndexBuffer } from '@Loop/renderer/Buffer';
 
 const FPSCounter = getFPSCounter('fps-counter');
 const Debug = getDebugDialog('debug');
@@ -67,61 +68,32 @@ export default class Square {
 
     /* BUFFERS */
     // Pull out the positions from the position buffer into the vertexPosition attribute.
-    {
-      buffers.position.bind();
-
-      gl.vertexAttribPointer(
-        this.shader.getAttribLocation('aVertexPosition'),
-        2,         // pull out 2 values per iteration
-        gl.FLOAT,  // the data in the buffer is 32bit floats
-        false,     // don't normalize
-        0,         // 0 = 2 * gl.FLOAT
-        0,         // how many bytes inside the buffer to start from
-      );
-      gl.enableVertexAttribArray(
-        this.shader.getAttribLocation('aVertexPosition'),
-      );
-      // Set the shader uniforms
-      this.shader.uploadUniformMat4('uProjectionMatrix', projectionMatrix);
-      this.shader.uploadUniformMat4('uModelViewMatrix', modelViewMatrix);
-    }
-
-    // Pull out the colors from the color buffer into the vertexColor attribute.
-    {
-      buffers.color.bind();
-
-      gl.vertexAttribPointer(
-        this.shader.getAttribLocation('aVertexColor'),
-        4, gl.FLOAT, false, 0, 0,
-      );
-      gl.enableVertexAttribArray(
-        this.shader.getAttribLocation('aVertexColor'),
-      );
-    }
+    // Set the shader uniforms
+    this.shader.uploadUniformMat4('uProjectionMatrix', projectionMatrix);
+    this.shader.uploadUniformMat4('uModelViewMatrix', modelViewMatrix);
 
     /* DRAW */
     // 0 = offset, 4 = vertices
+    buffers.bind();
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
 
   initBuffers() {
-    const positionBuffer = new VertexBuffer([
-      1.0,  1.0,
-     -1.0,  1.0,
-      1.0, -1.0,
-     -1.0, -1.0,
+    const vertexArray = new VertexArray();
+    const vertexBuffer = new VertexBuffer([
+      1.0,  1.0,  1.0,  1.0,  1.0,  1.0, // white
+     -1.0,  1.0,  1.0,  0.0,  0.0,  1.0, // red
+      1.0, -1.0,  0.0,  1.0,  0.0,  1.0, // green
+     -1.0, -1.0,  0.0,  0.0,  1.0,  1.0, // blue
     ]);
 
-    const colorBuffer = new VertexBuffer([
-      1.0,  1.0,  1.0,  1.0, // white
-      1.0,  0.0,  0.0,  1.0, // red
-      0.0,  1.0,  0.0,  1.0, // green
-      0.0,  0.0,  1.0,  1.0, // blue
-    ]);
+    vertexBuffer.setLayout(
+      ShaderDataType.Vec2,
+      ShaderDataType.Vec4,
+    );
 
-    return {
-      position: positionBuffer,
-      color: colorBuffer,
-    };
+    vertexArray.addVertexBuffer(vertexBuffer);
+
+    return vertexArray;
   }
 }

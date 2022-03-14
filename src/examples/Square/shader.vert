@@ -1,7 +1,7 @@
 #version 300 es
 
-in vec4 aVertexPosition;
-in vec4 aVertexColor;
+layout(location = 0) in vec4 aVertexPosition;
+layout(location = 1) in vec4 aVertexColor;
 
 uniform mat4 uModelViewMatrix;
 uniform mat4 uProjectionMatrix;

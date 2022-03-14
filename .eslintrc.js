@@ -57,6 +57,8 @@ module.exports = {
     'no-underscore-dangle': ['off'],
     'no-unused-vars': 'off',
     'no-trailing-spaces': 'warn',
+    'no-var': 'warn',
+    'getter-return': 'off',
     'object-curly-newline': ['error', {
       consistent: true,
       multiline: true,

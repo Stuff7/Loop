@@ -1,5 +1,5 @@
 import gl from '@Loop/core/gfx/WebGL2';
-import { assertNull } from '@Loop/utils/assert';
+import assert from '@Loop/utils/assert';
 import { mat4 } from 'gl-matrix';
 
 interface IShader {
@@ -25,7 +25,7 @@ export default class Shader implements IShader {
     const program = gl.createProgram();
 
     // Only continue if WebGL is available and working
-    assertNull(program, 'Failed to create shader program');
+    assert(program, 'Failed to create shader program');
 
     gl.attachShader(program, vertexShader);
     gl.attachShader(program, fragmentShader);
@@ -57,6 +57,10 @@ export default class Shader implements IShader {
     gl.useProgram(this.program);
   }
 
+  unbind() {
+    gl.useProgram(0);
+  }
+
   uploadUniformMat4(name: string, matrix: mat4, transpose = false) {
     const location = this.getUniformLocation(name);
     return gl.uniformMatrix4fv(
@@ -66,22 +70,12 @@ export default class Shader implements IShader {
     );
   }
 
-  getAttribLocation(name: string) {
-    if (name in this.m_AttributeLocationCache) {
-      return this.m_AttributeLocationCache[name];
-    }
-    const location = gl.getAttribLocation(this.program, name);
-    this.m_AttributeLocationCache[name] = location;
-
-    return location;
-  }
-
   private getUniformLocation(name: string) {
     if (name in this.m_UniformLocationCache) {
       return this.m_UniformLocationCache[name];
     }
     const location = gl.getUniformLocation(this.program, name);
-    assertNull(location, `Could not find uniform location with name "${name}"`);
+    assert(location, `Could not find uniform location with name "${name}"`);
     this.m_UniformLocationCache[name] = location;
 
     return location;
@@ -91,7 +85,7 @@ export default class Shader implements IShader {
     const shaderType = ShaderType[type];
     const shader = gl.createShader(type);
 
-    assertNull(shader, `Failed to create ${shaderType} shader`);
+    assert(shader, `Failed to create ${shaderType} shader`);
 
     // Send the source to the shader object
     gl.shaderSource(shader, source);
