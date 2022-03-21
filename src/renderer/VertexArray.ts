@@ -22,6 +22,17 @@ export default class VertexArray {
     this.setIndexBuffer(indexBuffer);
   }
 
+  draw() {
+    this.bind();
+    this.m_IndexBuffer.bind();
+    gl.drawElements(
+      gl.TRIANGLES,
+      this.m_IndexBuffer.length,
+      gl.UNSIGNED_INT,
+      0,
+    );
+  }
+
   setIndexBuffer(indexBuffer: IndexBuffer) {
 		gl.bindVertexArray(this.m_VAO);
 		indexBuffer.bind();

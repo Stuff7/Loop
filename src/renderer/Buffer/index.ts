@@ -46,6 +46,7 @@ export class VertexBuffer {
 
 export class IndexBuffer {
   private m_Buffer: WebGLBuffer;
+  private m_Length = 0;
 
   constructor(indices?: Iterable<number>) {
 		const buffer = gl.createBuffer();
@@ -54,11 +55,17 @@ export class IndexBuffer {
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.m_Buffer);
 
     if (!indices) {
-      gl.bufferData(gl.ARRAY_BUFFER, null, gl.DYNAMIC_DRAW);
+      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, null, gl.DYNAMIC_DRAW);
       return;
     }
+    const indicesArray = new Uint32Array(indices);
+    this.m_Length = indicesArray.length;
 
-    gl.bufferData(gl.ARRAY_BUFFER, new Uint32Array(indices), gl.STATIC_DRAW);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indicesArray, gl.STATIC_DRAW);
+  }
+
+  get length() {
+    return this.m_Length;
   }
 
   bind() {
@@ -66,6 +73,6 @@ export class IndexBuffer {
   }
 
   unbind() {
-    gl.bindBuffer(gl.ARRAY_BUFFER, 0);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, 0);
   }
 }

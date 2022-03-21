@@ -40,7 +40,7 @@ export class BufferElement {
       case ShaderDataType.Int4:
         return 4;
       default:
-        assert(false, 'Unknown ShaderDataType');
+        assert(false, `Could not get componentCount for ${ShaderDataType[this.type]}`);
     }
   }
 
@@ -65,7 +65,7 @@ export class BufferElement {
       case ShaderDataType.Bool:
         return 1;
       default:
-        assert(false, 'Unknown ShaderDataType');
+        assert(false, `Could not get typeSize for ${ShaderDataType[this.type]}`);
     }
   }
 
@@ -86,7 +86,7 @@ export class BufferElement {
       case ShaderDataType.Bool:
         return gl.BOOL;
       default:
-        assert(false, 'Unknown ShaderDataType');
+        assert(false, `Could not get webGLType for ${ShaderDataType[this.type]}`);
     }
   }
 }
